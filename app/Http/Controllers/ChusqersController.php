@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Chusqer;
 use App\Hashtag;
 use App\Http\Requests\CreateChusqerRequest;
+use App\like;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -167,6 +169,44 @@ class ChusqersController extends Controller
         ]);
     }
 
+//    public function createLike($id){
+//        $user = Auth::user();
+//        $chusqer = Chusqer::where('id', $id)->first();
+//
+//        Like::create([
+//            'user_id' => $user->id,
+//            'chusqer_id' => $chusqer->id
+//        ]);
+//
+//        return redirect('/');
+//    }
 
+    /**
+     * Metodo que da un like a un chusqer
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function like($id){
+        $user = Auth::user();
+        $chusqer = Chusqer::where('id', $id)->first();
+
+        $user->likes()->attach($chusqer);
+
+        return redirect('/')->withSuccess('Le has dado un like');
+    }
+
+    /**
+     * Metodo que quita un like a un chusqer
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function noLike($id){
+        $user = Auth::user();
+        $chusqer = Chusqer::where('id', $id)->first();
+
+        $user->likes()->detach($chusqer);
+
+        return redirect('/')->withSuccess('Le has quitado un like');
+    }
 
 }

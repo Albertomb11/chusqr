@@ -28,6 +28,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function likes(){
+        return $this->belongsToMany(Like::class, 'likes', 'user_id', 'chusqer_id');
+    }
+
+    public function isLike(Chusqer $chusqer)
+    {
+        return $this->likes->contains($chusqer);
+    }
+
     /**
      * Un usuario tendrá varios mensajes (chusqers)
      */

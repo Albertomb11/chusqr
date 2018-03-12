@@ -20,10 +20,29 @@
             {{ csrf_field() }}
             {{ method_field('DELETE') }}
 
-            <button type="submit" class="button alert">Borra</button>
+            <button type="submit" class="button alert">Borrar</button>
 
         </form>
         @endcan
     </div>
     @endif
+
+    @if(Auth::user()->isLike($user))
+        <form action="/{{ $chusqer->id }}/noLikes" method="POST">
+            {{ csrf_field() }}
+
+            <button type="submit" class="alert button">No Like</button>
+        </form>
+    @else
+        <form action="/{{ $chusqer->id }}/likes" method="POST">
+            {{ csrf_field() }}
+
+            <button type="submit" class="button">Like</button>
+        </form>
+    @endif
+        @if($user->likes->count() == 0)
+            <p>No tiene likes</p>
+        @else
+        <p>{{ $user->likes->count() }}</p>
+        @endif
 </div>

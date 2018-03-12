@@ -21,6 +21,11 @@ Route::get('/hashtag/{hashtag}', 'HashtagController@index');
 
 Auth::routes();
 
+// Rutas para dar o quitar like a un chusqer
+Route::post('/{chusqer}/likes', 'ChusqersController@like')->middleware('auth');
+Route::post('/{chusqer}/noLikes', 'ChusqersController@noLike')->middleware('auth');
+
+
 Route::group(['middleware' => 'auth'], function(){
     Route::redirect('/profile', '/profile/account', 302);
 
